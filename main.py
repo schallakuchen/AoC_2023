@@ -1,6 +1,6 @@
 import importlib
 
-DAY = 6
+DAY = 7
 
 
 def main():
