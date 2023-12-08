@@ -88,33 +88,27 @@ def d07():
 
     # Part 2
     for hand in hands:
-        j_positions = []
-        other_positions = []
-        for i, c in enumerate(hand.hand):
-            if c == 'J':
-                j_positions.append(i)
-            else:
-                other_positions.append(i)
-        num_jokers = len(j_positions)
+        num_jokers = hand.hand.count('J')
         best_hand_type = hand.hand_type
 
-        for permutation in itertools.product(deck, repeat=num_jokers):
-            new_hand = replace_jokers(hand.hand, permutation)
-            new_hand_type = evaluate_hand(new_hand)
-            best_hand_type = max(new_hand_type, hand.hand_type)
+        if num_jokers > 0:
+            for permutation in itertools.product(deck, repeat=num_jokers):
+                new_hand = replace_jokers(hand.hand, permutation)
+                new_hand_type = evaluate_hand(new_hand)
+                best_hand_type = max(new_hand_type, best_hand_type)
 
-        hand.hand_type = best_hand_type
+            hand.hand_type = best_hand_type
 
-        sort_hands_joker(hands)
+    sort_hands_joker(hands)
 
-        for i, hand in enumerate(hands):
-            hand.rank = i + 1
+    for i, hand in enumerate(hands):
+        hand.rank = i + 1
 
-        for hand in hands:
-            print(f"Rank: {hand.rank}, Hand: {hand.hand}, Type: {hand.hand_type}, Bid: {hand.bid}, Winning Amount: {hand.rank * hand.bid}")
-            print(hand.card_values())
-            result_part2 += hand.rank * hand.bid
-            print(result_part2)
+    for hand in hands:
+        print(f"Rank: {hand.rank}, Hand: {hand.hand}, Type: {hand.hand_type}, Bid: {hand.bid}, Winning Amount: {hand.rank * hand.bid}")
+        print(hand.card_values())
+        result_part2 += hand.rank * hand.bid
+        print(result_part2)
 
     print(f"Part 2: {result_part2}")
 
